@@ -1,0 +1,37 @@
+{
+  "name": "mobx",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "bootstrap": "3",
+    "halogen": "^0.2.0",
+    "mobx": "^3.1.9",
+    "mobx-react": "^4.1.8",
+    "react": "^15.5.4",
+    "react-custom-scrollbars": "^4.1.2",
+    "react-dom": "^15.5.4",
+    "react-timeago": "^3.3.0"
+  },
+  "devDependencies": {
+    "json-schema-faker": "0.3.4",
+    "json-server": "^0.10.1",
+    "mobx-react-devtools": "^4.2.13",
+    "node-sass": "^4.5.3",
+    "npm-run-all": "^4.0.2",
+    "react-addons-perf": "^15.4.2",
+    "react-perf-tool": "^0.2.0",
+    "react-scripts": "1.0.2"
+  },
+  "scripts": {
+    "build-css": "node-sass src/ -o src/",
+    "watch-css": "npm run build-css && node-sass src/ -o src/ --watch",
+    "start:server": "json-server --watch api/data.js -p 3001",
+    "start:client": "react-scripts start",
+    "start": "npm-run-all -p start:client start:server watch-css",
+    "build": "npm run build-css && react-scripts build",
+    "prod:server": "serve -s build -p 8080",
+    "prod": "npm-run-all -p start:server prod:server",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}

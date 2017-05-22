@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "jsx": "react",
+        "checkJs": true,
+        "lib": [
+            "es2015",
+            "dom"
+        ]
+    },
+    "include": [
+        "src/**/*.js"
+    ]
+}

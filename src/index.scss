@@ -1,0 +1,108 @@
+.wrapper {
+	position: relative;
+	margin: 0 auto;
+	overflow: hidden;
+	padding: 5px 15px;
+	height: 43px;
+
+	> ul {
+		position: absolute;
+		left: 0;
+		top: 0;
+		min-width: 500%;
+		margin-left: 12px;
+		margin-top: 0;
+		padding-left: 5px;
+		transition: 1s ease-in-out;
+	}
+
+	> ul > li{
+		display: table-cell;
+		position: relative;
+		text-align: center;
+		cursor: grab;
+		cursor: -webkit-grab;
+		color: #efefef;
+		vertical-align: middle;
+	}
+}
+
+.scroller {
+	cursor: pointer;
+	display: none;
+	font-size: 2em;
+	font-weight: bold;
+	padding: 0 7px;
+}
+
+.scroller-next{
+	float: right;
+}
+
+.scroller-prev {
+	float: left;
+}
+
+/**
+* Tabs
+*/
+.nav-tabs > li > a {
+	background-color: #FAF2F2;
+
+	> .label {
+		font-size: 9px;
+		border-radius: 5px;
+		padding: 2px 5px;
+		line-height: normal;
+		position: absolute;
+		top: 3px;
+		right: 2px;
+	}
+}
+.tab-pane {
+	padding-top: 10px;
+
+	.label {
+		margin-right: 0.5rem;
+	}
+	
+	.tab-content,
+	.tablist {
+		padding: 0;
+	}
+
+	.nav-pills {
+		margin-top: 10px;
+		padding: 0;
+
+		> li > a {
+			padding: 5px 10px;
+
+			> .label {
+				position: absolute;
+				top: auto;
+				right: 4px;
+				margin-top: 3px;
+			}
+		}
+	}
+}
+
+/**
+* Alerts
+*/
+.tab-pane li {
+	margin-top: 15px;
+}
+.tab-pane li div {
+	font-size: 0.85em;
+}
+.label {
+	font-weight: normal;
+}
+
+.loader {
+  position: absolute;
+  left: 50%;
+  top: 20%;
+}
