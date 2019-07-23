@@ -1,4 +1,4 @@
-import 'babel-polyfill';
+import 'core-js/shim';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -8,28 +8,22 @@ import Alerts from './components/Alerts';
 import 'bootstrap/dist/css/bootstrap.css';
 import './index.css';
 
-let perfTool;
 if (process.env.NODE_ENV !== 'production') {
-  const ReactPerfTool = require('react-perf-tool');
-  const Perf = require('react-addons-perf');
-
-  window.config = require('./settings.js').default;
-  perfTool = <ReactPerfTool perf={Perf} />;
+	window.config = require('./settings.js').default;
 }
 
 const config = window.config || {};
 const maxHeight = config.maxHeight || 400;
-const onTabClick = config.onTabClick || (f => f);
+const onTabClick = config.onTabClick || (() => null);
 const alertStore = new AlertStore(config);
 
 ReactDOM.render(
-  <div>
-    <Alerts
-      maxHeight={maxHeight}
-      onTabClick={onTabClick}
-      store={alertStore}
-    />
-    {perfTool}
-  </div>,
-  document.getElementById('root')
+	<div>
+		<Alerts
+			maxHeight={maxHeight}
+			onTabClick={onTabClick}
+			store={alertStore}
+		/>
+	</div>,
+	document.getElementById('root'),
 );

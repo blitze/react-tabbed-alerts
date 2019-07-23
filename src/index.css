@@ -4,25 +4,23 @@
   overflow: hidden;
   padding: 5px 15px;
   height: 43px; }
-
-.wrapper > ul {
-  position: absolute;
-  left: 0;
-  top: 0;
-  min-width: 500%;
-  margin-left: 12px;
-  margin-top: 0;
-  padding-left: 5px;
-  transition: 1s ease-in-out; }
-
-.wrapper > ul > li {
-  display: table-cell;
-  position: relative;
-  text-align: center;
-  cursor: grab;
-  cursor: -webkit-grab;
-  color: #efefef;
-  vertical-align: middle; }
+  .wrapper > ul {
+    position: absolute;
+    left: 0;
+    top: 0;
+    min-width: 500%;
+    margin-left: 12px;
+    margin-top: 0;
+    padding-left: 5px;
+    transition: 1s ease-in-out; }
+  .wrapper > ul > li {
+    display: table-cell;
+    position: relative;
+    text-align: center;
+    cursor: grab;
+    cursor: -webkit-grab;
+    color: #efefef;
+    vertical-align: middle; }
 
 .scroller {
   cursor: pointer;
@@ -42,38 +40,32 @@
 */
 .nav-tabs > li > a {
   background-color: #FAF2F2; }
-
-.nav-tabs > li > a > .label {
-  font-size: 9px;
-  border-radius: 5px;
-  padding: 2px 5px;
-  line-height: normal;
-  position: absolute;
-  top: 3px;
-  right: 2px; }
+  .nav-tabs > li > a > .label {
+    font-size: 9px;
+    border-radius: 5px;
+    padding: 2px 5px;
+    line-height: normal;
+    position: absolute;
+    top: 3px;
+    right: 2px; }
 
 .tab-pane {
   padding-top: 10px; }
-
-.tab-pane .label {
-  margin-right: 0.5rem; }
-
-.tab-pane .tab-content,
-.tab-pane .tablist {
-  padding: 0; }
-
-.tab-pane .nav-pills {
-  margin-top: 10px;
-  padding: 0; }
-
-.tab-pane .nav-pills > li > a {
-  padding: 5px 10px; }
-
-.tab-pane .nav-pills > li > a > .label {
-  position: absolute;
-  top: auto;
-  right: 4px;
-  margin-top: 3px; }
+  .tab-pane .label {
+    margin-right: 0.5rem; }
+  .tab-pane .tab-content,
+  .tab-pane .tablist {
+    padding: 0; }
+  .tab-pane .nav-pills {
+    margin-top: 10px;
+    padding: 0; }
+    .tab-pane .nav-pills > li > a {
+      padding: 5px 10px; }
+      .tab-pane .nav-pills > li > a > .label {
+        position: absolute;
+        top: auto;
+        right: 4px;
+        margin-top: 3px; }
 
 /**
 * Alerts

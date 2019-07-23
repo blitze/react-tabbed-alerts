@@ -1,11 +1,12 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 
-function A(props) {
-  const { children, onClick } = props;
-  return (
-    <a {...props} onClick={onClick}>{children}</a>
-  );
+function A({ post }) {
+	return (
+		<a href={post.url} target="_blank" onClick={post.markRead}>
+			<strong>{post.title}</strong>
+		</a>
+	);
 }
 
 export default observer(A);

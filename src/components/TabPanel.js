@@ -7,29 +7,32 @@ import Label from './Label';
 import A from './A.js';
 
 function TabPanel({ activeClass, content, maxHeight }) {
-  let tabContent = content;
-	if (Array.isArray(content)) {
-		let posts = content.map((post) => (
-			<li key={post.id}>
-				<Label type="status" data={post} />
-				<A href={post.link} target="_blank" onClick={post.markRead}><strong>{post.title}</strong></A>{' '}
-				<div>{post.dateLabel} <Timeago date={post.timestamp} /></div>
-			</li>
-		));
-		tabContent = (
-			<Scrollbars
-				autoHeight
-				autoHeightMin={0}
-				autoHeightMax={maxHeight}
-			>
-				<ol>{posts}</ol>
-			</Scrollbars>
-		);
-	}
-
 	return (
 		<div className={`tab-pane ${activeClass}`}>
-			{tabContent}
+			{Array.isArray(content) ? (
+				<Scrollbars
+					autoHeight
+					autoHeightMin={0}
+					autoHeightMax={maxHeight}
+				>
+					<ol>
+						{content.map(post => (
+							<li key={post.id}>
+								<Label type="status" data={post} />
+								<A post={post} />
+								{!!post.timestamp && (
+									<div>
+										{post.dateLabel}{' '}
+										<Timeago date={post.timestamp} />
+									</div>
+								)}
+							</li>
+						))}
+					</ol>
+				</Scrollbars>
+			) : (
+				content
+			)}
 		</div>
 	);
 }
