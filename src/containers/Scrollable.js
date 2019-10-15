@@ -79,10 +79,12 @@ class Scrollable extends Component {
 		this.list = this.wrapper.firstChild;
 		this.resize();
 		window.addEventListener('resize', this.resize);
+		this.wrapper.addEventListener('wheel', this.handleWheel, { passive: false });
 	}
 
 	componentWillUnmount() {
 		window.removeEventListener('resize', this.resize);
+		this.wrapper.removeEventListener('wheel', this.handleWheel);
 	}
 
 	resize = () => {
@@ -147,7 +149,6 @@ class Scrollable extends Component {
 				<div
 					className="wrapper"
 					ref={this.wrapperElement}
-					onWheel={this.handleWheel}
 				>
 					{childNode}
 				</div>
