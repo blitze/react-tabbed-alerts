@@ -3,37 +3,47 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "bootstrap": "3",
+    "bootstrap": "4",
     "mobx": "4",
     "mobx-react": "^5.2.5",
-    "react": "^16.5.2",
+    "react": "^16.10.2",
     "react-custom-scrollbars": "^4.2.1",
-    "react-dom": "^16.5.2",
+    "react-dom": "^16.10.2",
     "react-spinkit": "^3.0.0",
     "react-timeago": "^4.1.9"
   },
   "devDependencies": {
-    "eslint-config-prettier": "^3.0.1",
-    "eslint-plugin-prettier": "^2.6.2",
+    "eslint-config-prettier": "^6.3.0",
+    "eslint-plugin-prettier": "^3.1.1",
     "json-schema-faker": "0.3.4",
     "json-server": "0.10.1",
     "mobx-react-devtools": "^6.0.2",
     "node-sass": "^4.9.3",
     "npm-run-all": "^4.1.3",
-    "prettier": "^1.14.2",
+    "onchange": "^6.1.0",
     "react-scripts": "^1.1.5"
   },
   "scripts": {
     "prettier-watch": "onchange '**/*.js' -- prettier --write {{changed}}",
     "build-css": "node-sass src/ -o src/",
     "watch-css": "npm run build-css && node-sass src/ -o src/ --watch",
-    "start:server": "json-server --watch api/data.js -p 8081",
+    "start:server": "json-server --watch api/data.js -p 3001",
     "start:client": "react-scripts start",
-    "start": "npm-run-all -p start:client start:server watch-css",
+    "start": "npm-run-all -p start:client start:server watch-css prettier-watch",
     "build": "npm run build-css && react-scripts build",
     "prod:server": "serve -s build -p 8080",
     "prod": "npm-run-all -p start:server prod:server",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
