@@ -5,7 +5,7 @@ import { action, extendObservable } from 'mobx';
 class Scrollable extends Component {
 	list = {};
 	wrapper = {};
-	controlsWidth = 12;
+	controlsWidth = 33;
 	scrolling = false;
 
 	constructor(props) {

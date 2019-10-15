@@ -2,7 +2,6 @@ import { action, extendObservable } from 'mobx';
 import he from 'he';
 
 import { urlPrefix } from '../constants';
-import { getEpochTime } from '../libs/utils';
 import tracker from './tracker';
 
 class post {
@@ -19,7 +18,7 @@ class post {
 	updated;
 	dateLabel = 'Posted';
 
-	constructor(row, captureTags, defaultTab, isTracked) {
+	constructor(row, isTracked) {
 		this.id =
 			row.id ||
 			Math.random()
@@ -33,23 +32,16 @@ class post {
 		this.type = row.type || 'document';
 		this.updated = row.updated || this.published;
 		this.link = row.link;
-
 		this.startDate = row.startDate;
-		this.endTime =
+		this.endDate =
 			this.type === 'event' && isTracked && row.endDate
-				? getEpochTime(row.endDate)
-				: this.timestamp;
+				? row.endDate
+				: this.date;
 		this.categories = row.categories || ['Misc'];
-		this.tags = captureTags.reduce((a, t) => {
-			const targetTag = t.tag.toLowerCase();
-			if ((row.tags || []).find(x => x.toLowerCase() === targetTag)) {
-				a.push(t.title);
-			}
+		this.tags = (row.tags || []).reduce((a, x) => {
+			a[x.toLowerCase()] = true;
 			return a;
-		}, []);
-		if (!this.tags.length) {
-			this.tags = [defaultTab];
-		}
+		}, {});
 
 		extendObservable(this, {
 			isRead: this.isTracked && tracker.isClicked(this.id),
@@ -60,10 +52,10 @@ class post {
 				return this.link
 					? this.link
 					: urlPrefix[this.type]
-						? urlPrefix[this.type] + this.id
-						: '#';
+					? urlPrefix[this.type] + this.id
+					: '#';
 			},
-			get timestamp() {
+			get date() {
 				let dateType = 'published';
 				if (this.type === 'event' && this.startDate) {
 					this.dateLabel = '';
@@ -73,18 +65,19 @@ class post {
 					dateType = 'updated';
 				}
 
-				return getEpochTime(this[dateType] || this.published);
+				return this[dateType] || this.published;
 			},
 			get label() {
 				let label = '';
 				if (this.isTracked) {
-					const updatedOn = getEpochTime(this.updated);
-
 					label = 'New';
 					if (this.isRead) {
 						const storedData = tracker.getPost(this.id);
+						const updatedOn = new Date(this.updated);
+						const lastReadOn = new Date(storedData.read);
+
 						label =
-							updatedOn > storedData.read ||
+							updatedOn > lastReadOn ||
 							this.replies > storedData.replies
 								? this.isResolved
 									? 'Resolved'

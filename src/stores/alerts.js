@@ -46,7 +46,6 @@ class Alerts {
 			return this.fetchJSON(source.url);
 		});
 		const results = await Promise.all(promises);
-		const currentTime = +new Date();
 
 		results.forEach((srcPosts = {}, idx) => {
 			const source = this.config.sources[idx];
@@ -55,16 +54,9 @@ class Alerts {
 
 			if (srcPosts.list) {
 				postIds = srcPosts.list.reduce((ids, row) => {
-					const post = new Post(
-						row,
-						source.captureTags,
-						source.title,
-						showLabels,
-					);
+					const post = new Post(row, showLabels);
 
-					if (
-						this._addToCollection(source, data, post, currentTime)
-					) {
+					if (this._addToCollection(source, data, post)) {
 						return ids;
 					}
 
@@ -76,7 +68,7 @@ class Alerts {
 						showLabels,
 					);
 
-					archiver.test(row, source, post.endTime, currentTime);
+					archiver.test(row, source, post.endDate);
 					ids[post.id] = post.replies;
 
 					return ids;
@@ -90,24 +82,22 @@ class Alerts {
 			}
 		});
 
+		this._addStaticPosts(data);
 		this.data = data;
 		tracker.update(repliesById);
 	}
 	_initTabData(source, data) {
 		source.collectInTab.forEach(tab => {
+			data[tab.title] = {
+				posts: [],
+				subTabs: {},
+			};
 			if (tab.showLabels) {
-				data[tab.title] = {
-					posts: [],
-					labels: [],
-				};
-			} else {
-				data[tab.title] = {
-					posts: [],
-				};
+				data[tab.title].labels = [];
 			}
 		});
 	}
-	_addToCollection(source, data, post, currentTime) {
+	_addToCollection(source, data, post) {
 		let skipped = 0;
 		source.collectInTab.forEach(tab => {
 			if (
@@ -115,7 +105,6 @@ class Alerts {
 				!eventIsTooFarOut(
 					tab.skipEventsUntilXDaysBeforeStart,
 					post.startDate,
-					currentTime,
 				)
 			) {
 				data[tab.title].posts.push(post);
@@ -130,37 +119,94 @@ class Alerts {
 	}
 	_buildTabs(post, data, captureTags, sourceTitle, showLabels) {
 		for (let category of post.categories) {
+			const path = [category, sourceTitle];
+
 			if (!data[category]) {
 				data[category] = {
 					subTabs: {},
 					labels: [],
+					posts: [],
 				};
 			}
 
-			// is the article tagged with one of our targetted tags?
-			for (let subTab of post.tags) {
-				if (!data[category].subTabs[subTab]) {
-					// do we have any static posts from config to add to this path?
-					const staticPosts =
-						this.config.staticPosts[`${category} > ${subTab}`] ||
-						[];
-					const posts = staticPosts.map(
-						row =>
-							new Post(row, captureTags, sourceTitle, showLabels),
+			if (!data[category].subTabs[sourceTitle]) {
+				data[category].subTabs[sourceTitle] = {
+					subTabs: {},
+					labels: [],
+					posts: [],
+				};
+			}
+
+			this._buildSubTabs(
+				category,
+				captureTags,
+				post,
+				data[category].subTabs[sourceTitle],
+				showLabels,
+				path,
+				sourceTitle,
+			);
+
+			data[category].labels.push(post.label);
+		}
+	}
+	_buildSubTabs(category, captureTags, post, data, showLabels, basePath) {
+		if (captureTags) {
+			for (const x of captureTags) {
+				const tag = x.title;
+				const path = [...basePath, tag];
+
+				if (
+					post.tags[x.tag] &&
+					(!x.category || x.category === category)
+				) {
+					if (!data.subTabs[tag]) {
+						data.subTabs[tag] = {
+							labels: [],
+							posts: [],
+							subTabs: {},
+						};
+					}
+
+					data.subTabs[tag].posts.push(post);
+					data.subTabs[tag].labels.push(post.label);
+
+					this._buildSubTabs(
+						category,
+						x.captureTags,
+						post,
+						data.subTabs[tag].subTabs,
+						showLabels,
+						path,
 					);
-
-					data[category].subTabs[subTab] = {
-						labels: [],
-						posts,
-					};
-				}
-				data[category].subTabs[subTab].posts.push(post);
-
-				if (post.label) {
-					data[category].labels.push(post.label);
-					data[category].subTabs[subTab].labels.push(post.label);
 				}
 			}
+
+			data.posts.push(post);
+			data.labels.push(post.label);
+		}
+	}
+	_addStaticPosts(data) {
+		for (let [pathString, staticPosts] of Object.entries(
+			this.config.staticPosts,
+		)) {
+			const posts = staticPosts.map(row => new Post(row, false));
+			const parts = pathString.split(' > ');
+			const category = parts.shift();
+
+			let ref = data[category].subTabs;
+			parts.forEach(path => {
+				if (!ref[path]) {
+					ref[path] = {
+						subTabs: {},
+						labels: [],
+						posts: [],
+					};
+				}
+
+				ref[path].posts = [...posts, ...ref[path].posts];
+				ref = ref[path].subTabs;
+			});
 		}
 	}
 	_removeEmptyTabs(source, data) {

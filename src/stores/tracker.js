@@ -10,12 +10,10 @@ class Tracker {
 		this.persist();
 	}
 	add(id, replies) {
-		this.clicked = Object.assign({}, this.clicked, {
-			[id]: {
-				read: +new Date(),
-				replies,
-			},
-		});
+		this.clicked = {
+            ...this.clicked,
+			[id]: this.getReadMetadata(replies),
+		};
 	}
 	isClicked(id) {
 		return !!this.clicked[id];
@@ -35,17 +33,16 @@ class Tracker {
 				}
 			}
 		} else {
-			const read = +new Date();
-			const posts = Object.keys(postReplies).reduce((accumulator, id) => {
-				accumulator[id] = {
-					read,
-					replies: postReplies[id],
-				};
+			this.clicked = Object.keys(postReplies).reduce((accumulator, id) => {
+				accumulator[id] = this.getReadMetadata(postReplies[id])
 				return accumulator;
 			}, {});
-			this.clicked = posts;
 		}
 	}
+    getReadMetadata = replies => ({
+        read: new Date().toISOString(),
+        replies,
+    })
 	load() {
 		return storage.get(storageKey) || {};
 	}

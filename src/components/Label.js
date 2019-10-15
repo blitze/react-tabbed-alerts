@@ -5,7 +5,7 @@ const _countOccurences = (search, labels) =>
 	labels.reduce((n, val) => n + (val === search), 0);
 
 const _getLabelType = labels => {
-	labels.replace(labels.slice().sort());
+	labels.replace(labels.filter(Boolean).slice().sort());
 	return labels.length ? labels[0] : '';
 };
 
@@ -30,19 +30,19 @@ const getLabelProps = {
 	status: getStatusLabelProps,
 };
 
+const labelColors = {
+	New: 'danger',
+	Updated: 'info'
+}
+
 function Label({ data, type }) {
 	let view = null;
 
 	const { label, text } = getLabelProps[type](data);
 
 	if (label) {
-		const typeClass =
-			label === 'New'
-				? 'danger'
-				: label === 'Updated'
-					? 'info'
-					: 'success';
-		view = <span className={`label label-${typeClass}`}>{text}</span>;
+		const typeClass = labelColors[label] || 'success';
+		view = <span className={`badge badge-pill badge-${typeClass}`}>{text}</span>;
 	}
 
 	return view;

@@ -1,12 +1,12 @@
 import 'whatwg-fetch';
 import { eventAccessIDs } from '../constants';
-import { getDaysDiff, getDateTime } from './utils';
+import { getPostAge, getDateTime } from './utils';
 
 class Archiver {
-	test(row, source, endTime, currentTime) {
+	test(row, source, date) {
 		if (source.archive.after) {
 			if (
-				getDaysDiff(currentTime, endTime) / 86400000 >
+				getPostAge(date) >
 				source.archive.after
 			) {
 				this.run(row, source);

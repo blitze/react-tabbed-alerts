@@ -1,19 +1,3 @@
-export function getEpochTime(str) {
-	if (!str) {
-		return 0;
-	}
-
-	const parts = str.match(
-		/([0-9]{4})-([0-9]{2})-([0-9]{2})T([0-9]+):([0-9]+):([0-9]+).([0-9]+)/,
-	);
-
-	if (parts.length) {
-		str = Date.UTC(parts[1], parts[2] - 1, parts[3], parts[4], parts[5], parts[6], parts[7]);
-	}
-
-	return +new Date(str);
-}
-
 export function getDateTime(isoStr) {
 	const date = new Date(isoStr);
 
@@ -31,13 +15,14 @@ export function getDateTime(isoStr) {
 	};
 }
 
-export function getDaysDiff(msFrom, msTo) {
-	return Math.floor((msFrom - msTo) / 86400000);
+export function getPostAge(postDate) {
+    const currentTime = +new Date();
+    const postTime = +new Date(postDate);
+    const microSecondsDiff = Math.abs(postTime - currentTime );
+
+    return Math.floor(microSecondsDiff / (1000 * 60 * 60  * 24));
 }
 
-export function eventIsTooFarOut(xDays, startDate, currentTime) {
-	if (xDays) {
-		return xDays < getDaysDiff(getEpochTime(startDate), currentTime);
-	}
-	return false;
+export function eventIsTooFarOut(xDays, startDate) {
+	return xDays && -Math.abs(xDays) < getPostAge(startDate);
 }

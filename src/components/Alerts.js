@@ -16,7 +16,7 @@ function Alerts({ store, maxHeight, onTabClick }) {
 		);
 		onTabClick();
 	} else {
-		content = <Spinner name="three-bounce" color="#26A65B" />;
+		content = <Spinner className="loader" name="three-bounce" color="#26A65B" />;
 	}
 
 	let devTools;

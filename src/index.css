@@ -4,30 +4,31 @@
   overflow: hidden;
   padding: 5px 15px;
   height: 43px; }
-  .wrapper > ul {
-    position: absolute;
-    left: 0;
-    top: 0;
-    min-width: 500%;
-    margin-left: 12px;
-    margin-top: 0;
-    padding-left: 5px;
-    transition: 1s ease-in-out; }
-  .wrapper > ul > li {
-    display: table-cell;
-    position: relative;
-    text-align: center;
-    cursor: grab;
-    cursor: -webkit-grab;
-    color: #efefef;
-    vertical-align: middle; }
+
+.wrapper > ul {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 42px;
+  padding: 0 1rem;
+  min-width: 500%;
+  transition: 1s ease-in-out; }
+
+.wrapper > ul > li {
+  position: relative;
+  text-align: center;
+  cursor: grab;
+  cursor: -webkit-grab; }
 
 .scroller {
   cursor: pointer;
   display: none;
-  font-size: 2em;
+  font-size: 3rem;
   font-weight: bold;
-  padding: 0 7px; }
+  line-height: 2rem;
+  height: 42px;
+  padding: 0 0.5rem;
+  background: #eee; }
 
 .scroller-next {
   float: right; }
@@ -38,34 +39,43 @@
 /**
 * Tabs
 */
-.nav-tabs > li > a {
-  background-color: #FAF2F2; }
-  .nav-tabs > li > a > .label {
-    font-size: 9px;
-    border-radius: 5px;
-    padding: 2px 5px;
-    line-height: normal;
-    position: absolute;
-    top: 3px;
-    right: 2px; }
+.nav-tabs li a .badge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  font-size: 9px; }
 
 .tab-pane {
-  padding-top: 10px; }
-  .tab-pane .label {
-    margin-right: 0.5rem; }
-  .tab-pane .tab-content,
-  .tab-pane .tablist {
-    padding: 0; }
-  .tab-pane .nav-pills {
-    margin-top: 10px;
-    padding: 0; }
-    .tab-pane .nav-pills > li > a {
-      padding: 5px 10px; }
-      .tab-pane .nav-pills > li > a > .label {
-        position: absolute;
-        top: auto;
-        right: 4px;
-        margin-top: 3px; }
+  padding: 15px; }
+
+.tab-pane .badge {
+  margin-right: 3px; }
+
+.tab-pane .tab-content,
+.tab-pane .tablist {
+  padding: 0;
+  margin: 0; }
+
+.tab-pane .nav-pills {
+  margin-top: 1rem;
+  padding: 0; }
+
+.tab-pane .nav-pills li {
+  margin-top: 0; }
+
+.tab-pane .nav-pills li a {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 10px; }
+
+.tab-pane .nav-pills li a .badge {
+  font-size: 10px;
+  margin: auto 0;
+  line-height: normal; }
+
+.tab-pane .sub-nav li a .badge {
+  margin-top: -4px;
+  margin-right: -8px; }
 
 /**
 * Alerts
@@ -75,9 +85,6 @@
 
 .tab-pane li div {
   font-size: 0.85em; }
-
-.label {
-  font-weight: normal; }
 
 .loader {
   position: absolute;

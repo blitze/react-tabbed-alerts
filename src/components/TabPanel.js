@@ -6,9 +6,21 @@ import Timeago from 'react-timeago';
 import Label from './Label';
 import A from './A.js';
 
-function TabPanel({ activeClass, content, maxHeight }) {
+function showDateTime(dateString) {
+	const isoDate = dateString.replace(/\+.+/, 'Z');
+	return new Date(isoDate).toLocaleString();
+}
+
+function TabPanel({ activeClass, id, content, maxHeight }) {
+	const className = ['tab-pane', activeClass].filter(Boolean).join(' ');
+
 	return (
-		<div className={`tab-pane ${activeClass}`}>
+		<div
+			className={className}
+			id={id}
+			role="tabpanel"
+			aria-labelledby={`${id}-tab`}
+		>
 			{Array.isArray(content) ? (
 				<Scrollbars
 					autoHeight
@@ -20,10 +32,13 @@ function TabPanel({ activeClass, content, maxHeight }) {
 							<li key={post.id}>
 								<Label type="status" data={post} />
 								<A post={post} />
-								{!!post.timestamp && (
+								{!!post.date && (
 									<div>
 										{post.dateLabel}{' '}
-										<Timeago date={post.timestamp} />
+										<Timeago
+											date={post.date}
+											title={showDateTime(post.date)}
+										/>
 									</div>
 								)}
 							</li>

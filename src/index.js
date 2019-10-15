@@ -18,12 +18,6 @@ const onTabClick = config.onTabClick || (() => null);
 const alertStore = new AlertStore(config);
 
 ReactDOM.render(
-	<div>
-		<Alerts
-			maxHeight={maxHeight}
-			onTabClick={onTabClick}
-			store={alertStore}
-		/>
-	</div>,
+	<Alerts maxHeight={maxHeight} onTabClick={onTabClick} store={alertStore} />,
 	document.getElementById('root'),
 );
