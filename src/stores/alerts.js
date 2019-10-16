@@ -50,6 +50,10 @@ class Alerts {
 		results.forEach((srcPosts = {}, idx) => {
 			const source = this.config.sources[idx];
 			const showLabels = source.allowTracking && tracker.isReady();
+			const captureTags =
+				typeof source.captureTags === 'function'
+					? source.captureTags()
+					: source.captureTags;
 			let postIds = {};
 
 			if (srcPosts.list) {
@@ -63,7 +67,7 @@ class Alerts {
 					this._buildTabs(
 						post,
 						data,
-						source.captureTags,
+						captureTags,
 						source.title,
 						showLabels,
 					);
@@ -158,7 +162,7 @@ class Alerts {
 
 				if (
 					post.tags[x.tag] &&
-					(!x.category || x.category === category)
+					(!Array.isArray(x.categories) || x.categories.includes(category))
 				) {
 					if (!data.subTabs[tag]) {
 						data.subTabs[tag] = {

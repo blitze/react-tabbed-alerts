@@ -1,6 +1,14 @@
-const { protocol, hostname, port } = window.location;
-const url = `${protocol}//${hostname}:${+port + 1}`;
-const captureTags = [
+var { protocol, hostname, port } = window.location;
+var url = `${protocol}//${hostname}:${+port + 1}`;
+
+/**
+ * Capture tags as sub nav
+ * This can be an object or a function that returns an option
+ * This requires a tag and a title property
+ * You can optionally use categories to only capture tags for specific categories
+ * You can optionally add a captureTags property to create nested tabs
+ */
+var captureTags = [
 	{
 		tag: 'pu',
 		title: 'Product Updates',
@@ -72,7 +80,15 @@ export default {
 		{
 			title: 'Resources',
 			url: `${url}/featured?_sort=updated&_order=DESC`,
-			captureTags,
+			captureTags: function() {
+				captureTags.push({
+					tag: 'alpha',
+					title: 'Alpha',
+					categories: ['Beauty', 'Books']
+				});
+
+				return captureTags;
+			},
 		},
 		{
 			title: 'Discussions',
