@@ -8,9 +8,10 @@ jsf.option({
 	defaultInvalidTypeProduct: true,
 });
 
-jsf.extend('faker', function(faker) {
+jsf.extend('faker', function() {
 	let seqId = 1000;
 	const statusAr = ['', '', '', '[Resolved] ', 'Resolved - '];
+	const faker = require('faker');
 
 	faker.custom = {
 		category: function() {
@@ -39,7 +40,10 @@ jsf.extend('faker', function(faker) {
 	return faker;
 });
 
-jsf.extend('chance', function(chance) {
+jsf.extend('chance', function() {
+	const Chance = require('chance');
+	const chance = new Chance();
+
 	chance.mixin({
 		tags: function() {
 			const num = chance.integer({
@@ -393,5 +397,5 @@ const schema = {
 };
 
 module.exports = function() {
-	return jsf(schema);
+	return jsf.generate(schema);
 };
