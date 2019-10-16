@@ -1,5 +1,5 @@
 {
-  "name": "categories-to-tabs",
+  "name": "react-tabbed-alerts",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -29,7 +29,7 @@
     "prettier-watch": "onchange '**/*.js' -- prettier --write {{changed}}",
     "build-css": "node-sass src/ -o src/",
     "watch-css": "npm run build-css && node-sass src/ -o src/ --watch",
-    "start:server": "json-server --no-cors -H 0.0.0.0 -p 3001 -w api/data.js",
+    "start:server": "json-server -H 0.0.0.0 -p 3001 -w api/data.js",
     "start:client": "react-scripts start",
     "start": "npm-run-all -p start:client start:server watch-css prettier-watch",
     "build": "npm run build-css && react-scripts build",
