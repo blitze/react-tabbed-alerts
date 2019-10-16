@@ -162,7 +162,8 @@ class Alerts {
 
 				if (
 					post.tags[x.tag] &&
-					(!Array.isArray(x.categories) || x.categories.includes(category))
+					(!Array.isArray(x.categories) ||
+						x.categories.includes(category))
 				) {
 					if (!data.subTabs[tag]) {
 						data.subTabs[tag] = {
@@ -198,19 +199,21 @@ class Alerts {
 			const parts = pathString.split(' > ');
 			const category = parts.shift();
 
-			let ref = data[category].subTabs;
-			parts.forEach(path => {
-				if (!ref[path]) {
-					ref[path] = {
-						subTabs: {},
-						labels: [],
-						posts: [],
-					};
-				}
+			if (data[category]) {
+				let ref = data[category].subTabs;
+				parts.forEach(path => {
+					if (!ref[path]) {
+						ref[path] = {
+							subTabs: {},
+							labels: [],
+							posts: [],
+						};
+					}
 
-				ref[path].posts = [...posts, ...ref[path].posts];
-				ref = ref[path].subTabs;
-			});
+					ref[path].posts = [...posts, ...ref[path].posts];
+					ref = ref[path].subTabs;
+				});
+			}
 		}
 	}
 	_removeEmptyTabs(source, data) {
