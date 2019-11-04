@@ -219,7 +219,9 @@ class Alerts {
 	_removeEmptyTabs(source, data) {
 		source.collectInTab.forEach(tab => {
 			if (data[tab.title] && data[tab.title].posts.length) {
-				data[tab.title].posts.sort((a, b) => b.timestamp - a.timestamp);
+				data[tab.title].posts.sort(
+					(a, b) => -a.updated.localeCompare(b.updated),
+				);
 			} else {
 				delete data[tab.title];
 			}
