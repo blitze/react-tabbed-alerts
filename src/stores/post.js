@@ -93,7 +93,7 @@ class post {
 				return label;
 			},
 			get isResolved() {
-				const pattern = /^\[?\)?resolved/i;
+				const pattern = /^\W?\s*resolved/i;
 				return pattern.test(this.subject);
 			},
 			markRead: action(() => {
