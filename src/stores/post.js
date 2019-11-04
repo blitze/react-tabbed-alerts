@@ -33,10 +33,7 @@ class post {
 		this.updated = row.updated || this.published;
 		this.link = row.link;
 		this.startDate = row.startDate;
-		this.endDate =
-			this.type === 'event' && isTracked && row.endDate
-				? row.endDate
-				: this.date;
+		this.endDate = row.endDate;
 		this.categories = row.categories || ['Misc'];
 		this.tags = (row.tags || []).reduce((a, x) => {
 			a[x.toLowerCase()] = true;
@@ -55,6 +52,13 @@ class post {
 					? urlPrefix[this.type] + this.id
 					: '#';
 			},
+			get termDate() {
+				return this.type === 'event' && this.endDate
+					? this.endDate
+					: this.isResolved
+					? this.date
+					: '';
+			},
 			get date() {
 				let dateType = 'published';
 				if (this.type === 'event' && this.startDate) {
@@ -65,7 +69,7 @@ class post {
 					dateType = 'updated';
 				}
 
-				return this[dateType] || this.published;
+				return this[dateType] || this.published || '';
 			},
 			get label() {
 				let label = '';

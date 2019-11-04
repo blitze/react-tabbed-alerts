@@ -4,13 +4,12 @@ import { getPostAge, getDateTime } from './utils';
 
 class Archiver {
 	test(row, source, date) {
-		if (source.archive.after) {
-			if (
-				getPostAge(date) >
-				source.archive.after
-			) {
-				this.run(row, source);
-			}
+		if (
+			date &&
+			source.archive.after &&
+			getPostAge(date) > source.archive.after
+		) {
+			this.run(row, source);
 		}
 	}
 	run(

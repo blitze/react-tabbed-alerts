@@ -72,7 +72,7 @@ class Alerts {
 						showLabels,
 					);
 
-					archiver.test(row, source, post.endDate);
+					archiver.test(row, source, post.termDate);
 					ids[post.id] = post.replies;
 
 					return ids;
