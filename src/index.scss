@@ -54,6 +54,7 @@
 		font-size: 9px;
 	}
 }
+
 .tab-pane {
     padding: 15px;
 
@@ -75,15 +76,15 @@
             margin-top: 0;
 
              a {
-                display: flex;
-                justify-content: space-between;
-                padding: 5px 10px;
+				display: flex;
+				justify-content: space-between;
+				padding: 5px 10px;
 
                 .badge {
-                    font-size: 9px;
+					font-size: 9px;
 					margin: auto 0;
 					height: 18px;
-                    line-height: normal;
+					line-height: normal;
                 }
             }
         }
@@ -101,12 +102,13 @@
 .tab-pane li {
 	margin-top: 15px;
 }
+
 .tab-pane li div {
 	font-size: 0.85em;
 }
 
 .loader {
-  position: absolute;
-  left: 50%;
-  top: 20%;
+	position: absolute;
+	left: 50%;
+	top: 20%;
 }

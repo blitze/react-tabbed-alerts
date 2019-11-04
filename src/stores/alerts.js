@@ -68,7 +68,7 @@ class Alerts {
 						showLabels,
 					);
 
-					archiver.test(row, source, post.endDate);
+					archiver.test(row, source, post.termDate);
 					ids[post.id] = post.replies;
 
 					return ids;
@@ -194,19 +194,21 @@ class Alerts {
 			const parts = pathString.split(' > ');
 			const category = parts.shift();
 
-			let ref = data[category].subTabs;
-			parts.forEach(path => {
-				if (!ref[path]) {
-					ref[path] = {
-						subTabs: {},
-						labels: [],
-						posts: [],
-					};
-				}
+			if (data[category]) {
+				let ref = data[category].subTabs;
+				parts.forEach(path => {
+					if (!ref[path]) {
+						ref[path] = {
+							subTabs: {},
+							labels: [],
+							posts: [],
+						};
+					}
 
-				ref[path].posts = [...posts, ...ref[path].posts];
-				ref = ref[path].subTabs;
-			});
+					ref[path].posts = [...posts, ...ref[path].posts];
+					ref = ref[path].subTabs;
+				});
+			}
 		}
 	}
 	_removeEmptyTabs(source, data) {

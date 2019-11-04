@@ -1,5 +1,5 @@
-const { protocol, hostname, port } = window.location;
-const url = `${protocol}//${hostname}:${+port + 1}`;
+const url = 'https://7gwlv-3001.sse.codesandbox.io';
+
 const captureTags = [
 	{
 		tag: 'pu',
